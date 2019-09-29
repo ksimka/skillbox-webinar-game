@@ -9,8 +9,8 @@ function error(string $s) : void {
     exit(1);
 }
 
-function is_valid_number(int $number, int $length) : bool {
-    if (strlen((string)$number) !== $length) {
+function is_valid_number(string $number, int $length) : bool {
+    if (strlen($number) !== $length) {
         return false;
     }
 

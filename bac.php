@@ -6,34 +6,27 @@ echonl('--== Bulls and Cows ==--');
 echonl('________________________');
 echonl('');
 
-$secret_filename = 'secret.txt';
+echo 'Generating a random number... ';
 
-$guess = $argv[1] ?? false;
-if ($guess === false) {
-    echo 'Generating a random number... ';
+do {
+    $secret = mt_rand(1000, 9999);
+} while (!is_valid_number($secret, 4));
 
-    do {
-        $secret = mt_rand(1000, 9999);
-    } while (!is_valid_number($secret, 4));
+echonl('Done!');
 
-    echonl('Done!');
+echonl('Enter your guess: ');
 
-    $saved = file_put_contents($secret_filename, $secret);
-    if ($saved === false) {
-        error('Failed to save to ' . $secret_filename . '.');
-    }
-} else {
-    // Read the secret from file.
-    if (!file_exists($secret_filename)) {
-        error('File ' . $secret_filename . ' with secret not found! Run game without args.');
-    }
+$try = 1;
+while (true) {
+    $guess = readline($try .') ');
 
-    $secret = file_get_contents($secret_filename);
-
-    // Chech that guess is the same length as secret.
+    // Check that guess is the same length as secret.
     if (!is_valid_number($guess, strlen($secret))) {
-        error('Your guess ' . $guess . ' is invalid: it must be legth ' . strlen($secret) . ' and contain unique digits.');
+        echonl('Your guess ' . $guess . ' is invalid: it must be legth ' . strlen($secret) . ' and contain unique digits.');
+        continue;
     }
+
+    $try++;
 
     $bulls = 0;
     $cows = 0;
@@ -50,9 +43,10 @@ if ($guess === false) {
         }
     }
 
-    echonl('Your guess is ' . $guess . ': bulls=' . $bulls . ', cows=' . $cows);
+    echonl("$bulls $cows");
 
     if ($bulls === strlen($secret) && $cows === strlen($secret)) {
         echonl('You won! Congratulations!');
+        exit(0);
     }
 }
