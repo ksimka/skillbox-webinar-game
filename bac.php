@@ -43,10 +43,10 @@ while (true) {
         }
     }
 
-    echonl("$bulls $cows");
+    echonl(col_yellow($bulls) . ' ' . col_blue($cows));
 
     if ($bulls === strlen($secret) && $cows === strlen($secret)) {
-        echonl('You won! Congratulations!');
+        echonl(col_green('You won! Congratulations!'));
         exit(0);
     }
 }
