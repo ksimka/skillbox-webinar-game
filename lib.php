@@ -5,7 +5,7 @@ function echonl(string $s) : void {
 }
 
 function error(string $s) : void {
-    echonl($s);
+    echonl(col_red($s));
     exit(1);
 }
 
@@ -36,4 +36,15 @@ function col_yellow(string $message) : string {
 
 function col_blue(string $message) : string {
     return "\e[0;34m{$message}\e[0m";
+}
+
+function write_log(bool $enabled, string $log_name, string $message) : void {
+    if (!$enabled) {
+        return;
+    }
+
+    $written = file_put_contents('logs/' . $log_name, $message, FILE_APPEND);
+    if ($written === false) {
+        error('Failed to write to log file ' . $log_name);
+    }
 }
